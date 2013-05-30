@@ -1,4 +1,7 @@
 RspecApp::Application.routes.draw do
+  resources :messages
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -49,6 +52,7 @@ RspecApp::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
+  root:to => 'messages#index'
 
   # See how all your routes lay out with "rake routes"
 
