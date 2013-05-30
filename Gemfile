@@ -7,6 +7,7 @@ gem 'rails', '3.2.13'
 
 gem 'sqlite3'
 
+gem "cancan", "~> 1.6.10"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,6 +35,8 @@ group :test do
 end
 
 gem 'jquery-rails'
+
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
