@@ -5,40 +5,39 @@ describe Contact do
     expect(build(:contact)).to be_valid
   end
 
-  it "is invalid without a firstname" do
-    expect(build(:contact, firstname: nil)).to have(1).errors_on(:firstname)
-  end
-
-  it "is invalid without a lastname" do
-    expect(build(:contact, lastname: nil)).to have(1).errors_on(:lastname)
-  end
-
-  it "is invalid with a duplicate email address" do
-    FactoryGirl.create(:contact, email: 'aaron@example.com')
-    contact = FactoryGirl.build(:contact, email: 'aaron@example.com')
-    expect(contact).to have(1).errors_on(:email)
-  end
+  it { should validate_presence_of :firstname }
+  it { should validate_presence_of :lastname }
+  it { should validate_presence_of :email }
+  it { should validate_uniqueness_of(:email) }
 
   it "has three phone numbers" do
     expect(create(:contact).phones.count).to eq 3
   end
 
   it "returns a contact's full name as a string" do
-    contact = FactoryGirl.build(:contact, firstname: 'John', lastname: 'Doe',
-      email: 'johndoe@example.com')
-    expect(contact.name).to eq 'John Doe'
+    contact = build_stubbed(:contact,
+      firstname: "Jane", lastname: "Doe")
+    expect(contact.name).to eq "Jane Doe"
   end
 
-  # this is not needed anymore
-  it "returns a sorted array of results that match" do
-    smith = Contact.create(firstname: 'John', lastname: 'Smith',
-      email: 'jsmith@example.com')
-    jones = Contact.create(firstname: 'Tim', lastname: 'Jones',
-      email: 'tjones@example.com')
-    johnson = Contact.create(firstname: 'John', lastname: 'Johnson',
-      email: 'jjohnson@example.com')
+  describe "filter last name by letter" do
+    let(:smith) { create(:contact,
+      lastname: 'Smith', email: 'jsmith@example.com') }
+    let(:jones) { create(:contact,
+      lastname: 'Jones', email: 'tjones@example.com') }
+    let(:johnson) { create(:contact,
+      lastname: 'Johnson', email: 'jjohnson@example.com') }
 
-    #expect(Contact.by_letter("J")).to eq [jones, johnson]
-    expect(Contact.by_letter("J")).to_not include smith
+    context "matching letters" do
+      it "returns a sorted array of results that match" do
+        expect(Contact.by_letter("J")).to eq [johnson, jones]
+      end
+    end
+
+    context "non-matching letters" do
+      it "returns a sorted array of results that match" do
+        expect(Contact.by_letter("J")).to_not include smith
+      end
+    end
   end
 end

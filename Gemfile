@@ -25,6 +25,7 @@ group :development, :test do
   gem "rspec-rails", "~> 2.12.2"
   gem "factory_girl_rails", "~> 4.2.0"
   gem "guard-rspec", "~> 2.4.0"
+  gem "guard-spork", "~> 1.5.0"
 end
 
 group :test do
@@ -32,6 +33,7 @@ group :test do
   gem "capybara", "~> 2.0.2"
   gem "database_cleaner", "~> 0.9.1"
   gem "launchy", "~> 2.2.0"
+  gem "shoulda-matchers", "~> 1.4.2"
 end
 
 gem 'jquery-rails'
